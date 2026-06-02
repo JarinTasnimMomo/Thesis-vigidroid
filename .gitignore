@@ -1,0 +1,70 @@
+# ====================================================================
+# VigiDroid — Master GitIgnore File (Android App + Machine Learning)
+# ====================================================================
+
+# --------------------------------------------------------------------
+# 1. Machine Learning & Data Pipeline (Python / Kaggle)
+# --------------------------------------------------------------------
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+pyvenv.cfg
+
+# Python caching
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Datasets and extracted matrix files (Crucial: avoids GitHub 100MB limit)
+*.npz
+*.csv
+*.tsv
+*.json
+!app/src/main/res/**/*.json # Allow Android resource JSONs if any exist
+
+# Model weights and exported formats
+*.pth
+*.pt
+*.pkl
+*.onnx
+*.h5
+*.gmo
+
+# Jupyter Notebook checkpoints and caches
+.ipynb_checkpoints/
+.pytest_cache/
+
+# --------------------------------------------------------------------
+# 2. Android Project Specifics (Gradle & IDE)
+# --------------------------------------------------------------------
+# Built artifacts
+**/build/
+captures/
+output.json
+
+# Gradle files and cache
+.gradle/
+local.properties
+GradleTaskRequests.txt
+.navigation/
+
+# Android Studio / IntelliJ files
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Device-specific logs and evaluation exports
+*.log
+capture.png
+
+# --------------------------------------------------------------------
+# 3. System & OS Overheads
+# --------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+*.swp
+*~
