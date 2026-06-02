@@ -1,69 +1,47 @@
-# ====================================================================
-# VigiDroid — Master GitIgnore File (Android App + Machine Learning)
-# ====================================================================
+# VigiDroid .gitignore
 
-# --------------------------------------------------------------------
-# 1. Machine Learning & Data Pipeline (Python / Kaggle)
-# --------------------------------------------------------------------
-# Virtual environments
+# Android / Gradle build outputs
+**/build/
+.gradle/
+captures/
+output.json
+
+# Local machine settings
+local.properties
+
+# Android Studio / IntelliJ
+.idea/
+*.iml
+*.ipr
+*.iws
+.navigation/
+GradleTaskRequests.txt
+
+# Kotlin/Java temporary files
+*.class
+
+# Python environments and caches (for ML scripts in repo)
 .venv/
 venv/
 env/
 ENV/
 pyvenv.cfg
-
-# Python caching
 **/__pycache__/
 *.pyc
 *.pyo
 *.pyd
-
-# Datasets and extracted matrix files (Crucial: avoids GitHub 100MB limit)
-*.npz
-*.csv
-*.tsv
-*.json
-!app/src/main/res/**/*.json # Allow Android resource JSONs if any exist
-
-# Model weights and exported formats
-*.pth
-*.pt
-*.pkl
-*.onnx
-*.h5
-*.gmo
-
-# Jupyter Notebook checkpoints and caches
 .ipynb_checkpoints/
 .pytest_cache/
 
-# --------------------------------------------------------------------
-# 2. Android Project Specifics (Gradle & IDE)
-# --------------------------------------------------------------------
-# Built artifacts
-**/build/
-captures/
-output.json
+# Common data artifacts
+*.npz
 
-# Gradle files and cache
-.gradle/
-local.properties
-GradleTaskRequests.txt
-.navigation/
-
-# Android Studio / IntelliJ files
-.idea/
-*.iml
-*.ipr
-*.iws
-
-# Device-specific logs and evaluation exports
+# Logs and temp files
 *.log
-capture.png
+*.tmp
+*.temp
 
-# --------------------------------------------------------------------
-# 3. System & OS Overheads
-# --------------------------------------------------------------------
+# OS files
 .DS_Store
 Thumbs.db
 *.swp
