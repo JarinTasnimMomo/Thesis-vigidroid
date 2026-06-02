@@ -1,0 +1,20 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.msh.vigidroid.app-mergeDebugResources-29:/values-hdpi-v4/values-hdpi-v4.xml",
+            "map": [
+                {
+                    "source": "/Users/jarintasnim/.gradle/caches/8.13/transforms/ea7dc9eef40505166e9d707b88b5a3dc/transformed/appcompat-1.6.1/res/values-hdpi-v4/values-hdpi-v4.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "6",
+                        "endColumns": "13",
+                        "endOffsets": "327"
+                    }
+                }
+            ]
+        }
+    ]
+}

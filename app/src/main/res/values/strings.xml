@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">VigiDroid</string>
+    <string name="app_tagline">On-device APK malware scanner</string>
+    <string name="start_scan">Start APK Scan</string>
+    <string name="status_idle">Idle</string>
+    <string name="status_scanning">Scanning…</string>
+    <string name="scan_results">Scan results</string>
+    <string name="no_results_yet">No scans yet. Place APKs in Download/ and tap Start.</string>
+    <string name="export_metrics_title">Export metrics folder</string>
+    <string name="export_metrics_hint">JSON metrics are saved per scan under your app storage.</string>
+    <string name="open_folder">Open</string>
+    <string name="system_log_title">System log</string>
+    <string name="view_full_log">View full log</string>
+    <string name="log_empty">No log entries.</string>
+    <string name="path_copied">Metrics path copied to clipboard</string>
+    <string name="permission_granted">Storage permission granted</string>
+    <string name="verdict_benign">Benign</string>
+    <string name="verdict_malware">Malware</string>
+    <string name="verdict_uncertain">Uncertain</string>
+    <string name="col_apk">APK</string>
+    <string name="col_xgb">XGBoost</string>
+    <string name="col_cnn">1D-CNN</string>
+    <string name="col_verdict">Verdict</string>
+    <string name="col_time">Time</string>
+</resources>

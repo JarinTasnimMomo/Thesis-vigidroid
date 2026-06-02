@@ -1,0 +1,173 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.msh.vigidroid"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="28"
+9        android:targetSdkVersion="36" />
+10
+11    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+11-->/Users/jarintasnim/Thesis/Faiyaz_work/vigidroid/app/src/main/AndroidManifest.xml:5:5-80
+11-->/Users/jarintasnim/Thesis/Faiyaz_work/vigidroid/app/src/main/AndroidManifest.xml:5:22-77
+12    <uses-permission
+12-->/Users/jarintasnim/Thesis/Faiyaz_work/vigidroid/app/src/main/AndroidManifest.xml:6:5-107
+13        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+13-->/Users/jarintasnim/Thesis/Faiyaz_work/vigidroid/app/src/main/AndroidManifest.xml:6:22-78
+14        android:maxSdkVersion="29" />
+14-->/Users/jarintasnim/Thesis/Faiyaz_work/vigidroid/app/src/main/AndroidManifest.xml:6:79-105
+15    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+15-->/Users/jarintasnim/Thesis/Faiyaz_work/vigidroid/app/src/main/AndroidManifest.xml:7:5-81
+15-->/Users/jarintasnim/Thesis/Faiyaz_work/vigidroid/app/src/main/AndroidManifest.xml:7:22-79
+16
+17    <permission
+17-->[androidx.core:core:1.9.0] /Users/jarintasnim/.gradle/caches/8.13/transforms/ebf726f37a4152734b9ac18eb4d27544/transformed/core-1.9.0/AndroidManifest.xml:22:5-24:47
+18        android:name="com.msh.vigidroid.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+18-->[androidx.core:core:1.9.0] /Users/jarintasnim/.gradle/caches/8.13/transforms/ebf726f37a4152734b9ac18eb4d27544/transformed/core-1.9.0/AndroidManifest.xml:23:9-81
+19        android:protectionLevel="signature" />
+19-->[androidx.core:core:1.9.0] /Users/jarintasnim/.gradle/caches/8.13/transforms/ebf726f37a4152734b9ac18eb4d27544/transformed/core-1.9.0/AndroidManifest.xml:24:9-44
+20
+21    <uses-permission android:name="com.msh.vigidroid.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+21-->[androidx.core:core:1.9.0] /Users/jarintasnim/.gradle/caches/8.13/transforms/ebf726f37a4152734b9ac18eb4d27544/transformed/core-1.9.0/AndroidManifest.xml:26:5-97
+21-->[androidx.core:core:1.9.0] /Users/jarintasnim/.gradle/caches/8.13/transforms/ebf726f37a4152734b9ac18eb4d27544/transformed/core-1.9.0/AndroidManifest.xml:26:22-94
+22
+23    <application
+23-->/Users/jarintasnim/Thesis/Faiyaz_work/vigidroid/app/src/main/AndroidManifest.xml:9:5-42:19
+24        android:allowBackup="true"
+24-->/Users/jarintasnim/Thesis/Faiyaz_work/vigidroid/app/src/main/AndroidManifest.xml:10:9-35
+25        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+25-->[androidx.core:core:1.9.0] /Users/jarintasnim/.gradle/caches/8.13/transforms/ebf726f37a4152734b9ac18eb4d27544/transformed/core-1.9.0/AndroidManifest.xml:28:18-86
+26        android:dataExtractionRules="@xml/data_extraction_rules"
+26-->/Users/jarintasnim/Thesis/Faiyaz_work/vigidroid/app/src/main/AndroidManifest.xml:11:9-65
+27        android:debuggable="true"
+28        android:extractNativeLibs="false"
+29        android:fullBackupContent="@xml/backup_rules"
+29-->/Users/jarintasnim/Thesis/Faiyaz_work/vigidroid/app/src/main/AndroidManifest.xml:12:9-54
+30        android:icon="@mipmap/ic_launcher"
+30-->/Users/jarintasnim/Thesis/Faiyaz_work/vigidroid/app/src/main/AndroidManifest.xml:13:9-43
+31        android:label="@string/app_name"
+31-->/Users/jarintasnim/Thesis/Faiyaz_work/vigidroid/app/src/main/AndroidManifest.xml:14:9-41
+32        android:roundIcon="@mipmap/ic_launcher_round"
+32-->/Users/jarintasnim/Thesis/Faiyaz_work/vigidroid/app/src/main/AndroidManifest.xml:15:9-54
+33        android:supportsRtl="true"
+33-->/Users/jarintasnim/Thesis/Faiyaz_work/vigidroid/app/src/main/AndroidManifest.xml:16:9-35
+34        android:theme="@style/Theme.VigiDroid" >
+34-->/Users/jarintasnim/Thesis/Faiyaz_work/vigidroid/app/src/main/AndroidManifest.xml:17:9-47
+35        <activity
+35-->/Users/jarintasnim/Thesis/Faiyaz_work/vigidroid/app/src/main/AndroidManifest.xml:19:9-25:20
+36            android:name="com.msh.vigidroid.MainActivity"
+36-->/Users/jarintasnim/Thesis/Faiyaz_work/vigidroid/app/src/main/AndroidManifest.xml:19:19-47
+37            android:exported="true" >
+37-->/Users/jarintasnim/Thesis/Faiyaz_work/vigidroid/app/src/main/AndroidManifest.xml:20:13-36
+38            <intent-filter>
+38-->/Users/jarintasnim/Thesis/Faiyaz_work/vigidroid/app/src/main/AndroidManifest.xml:21:13-24:29
+39                <action android:name="android.intent.action.MAIN" />
+39-->/Users/jarintasnim/Thesis/Faiyaz_work/vigidroid/app/src/main/AndroidManifest.xml:22:17-68
+39-->/Users/jarintasnim/Thesis/Faiyaz_work/vigidroid/app/src/main/AndroidManifest.xml:22:25-66
+40
+41                <category android:name="android.intent.category.LAUNCHER" />
+41-->/Users/jarintasnim/Thesis/Faiyaz_work/vigidroid/app/src/main/AndroidManifest.xml:23:17-76
+41-->/Users/jarintasnim/Thesis/Faiyaz_work/vigidroid/app/src/main/AndroidManifest.xml:23:27-74
+42            </intent-filter>
+43        </activity>
+44
+45        <!-- Broadcast Receiver for new APK downloads -->
+46        <receiver
+46-->/Users/jarintasnim/Thesis/Faiyaz_work/vigidroid/app/src/main/AndroidManifest.xml:28:9-35:20
+47            android:name="com.msh.vigidroid.ApkDownloadReceiver"
+47-->/Users/jarintasnim/Thesis/Faiyaz_work/vigidroid/app/src/main/AndroidManifest.xml:28:19-54
+48            android:exported="false" >
+48-->/Users/jarintasnim/Thesis/Faiyaz_work/vigidroid/app/src/main/AndroidManifest.xml:29:13-37
+49            <intent-filter>
+49-->/Users/jarintasnim/Thesis/Faiyaz_work/vigidroid/app/src/main/AndroidManifest.xml:30:13-34:29
+50                <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
+50-->/Users/jarintasnim/Thesis/Faiyaz_work/vigidroid/app/src/main/AndroidManifest.xml:31:17-81
+50-->/Users/jarintasnim/Thesis/Faiyaz_work/vigidroid/app/src/main/AndroidManifest.xml:31:25-79
+51
+52                <data android:scheme="content" />
+52-->/Users/jarintasnim/Thesis/Faiyaz_work/vigidroid/app/src/main/AndroidManifest.xml:32:17-49
+52-->/Users/jarintasnim/Thesis/Faiyaz_work/vigidroid/app/src/main/AndroidManifest.xml:32:23-47
+53                <data android:mimeType="application/vnd.android.package-archive" />
+53-->/Users/jarintasnim/Thesis/Faiyaz_work/vigidroid/app/src/main/AndroidManifest.xml:32:17-49
+53-->/Users/jarintasnim/Thesis/Faiyaz_work/vigidroid/app/src/main/AndroidManifest.xml:33:23-81
+54            </intent-filter>
+55        </receiver>
+56
+57        <service
+57-->/Users/jarintasnim/Thesis/Faiyaz_work/vigidroid/app/src/main/AndroidManifest.xml:37:9-40:40
+58            android:name="com.msh.vigidroid.ScanService"
+58-->/Users/jarintasnim/Thesis/Faiyaz_work/vigidroid/app/src/main/AndroidManifest.xml:38:13-40
+59            android:exported="false"
+59-->/Users/jarintasnim/Thesis/Faiyaz_work/vigidroid/app/src/main/AndroidManifest.xml:40:13-37
+60            android:permission="android.permission.BIND_JOB_SERVICE" />
+60-->/Users/jarintasnim/Thesis/Faiyaz_work/vigidroid/app/src/main/AndroidManifest.xml:39:13-69
+61
+62        <provider
+62-->[androidx.emoji2:emoji2:1.2.0] /Users/jarintasnim/.gradle/caches/8.13/transforms/cc5b5d5ce47d471ddfe9ebc08cd7fafa/transformed/emoji2-1.2.0/AndroidManifest.xml:24:9-32:20
+63            android:name="androidx.startup.InitializationProvider"
+63-->[androidx.emoji2:emoji2:1.2.0] /Users/jarintasnim/.gradle/caches/8.13/transforms/cc5b5d5ce47d471ddfe9ebc08cd7fafa/transformed/emoji2-1.2.0/AndroidManifest.xml:25:13-67
+64            android:authorities="com.msh.vigidroid.androidx-startup"
+64-->[androidx.emoji2:emoji2:1.2.0] /Users/jarintasnim/.gradle/caches/8.13/transforms/cc5b5d5ce47d471ddfe9ebc08cd7fafa/transformed/emoji2-1.2.0/AndroidManifest.xml:26:13-68
+65            android:exported="false" >
+65-->[androidx.emoji2:emoji2:1.2.0] /Users/jarintasnim/.gradle/caches/8.13/transforms/cc5b5d5ce47d471ddfe9ebc08cd7fafa/transformed/emoji2-1.2.0/AndroidManifest.xml:27:13-37
+66            <meta-data
+66-->[androidx.emoji2:emoji2:1.2.0] /Users/jarintasnim/.gradle/caches/8.13/transforms/cc5b5d5ce47d471ddfe9ebc08cd7fafa/transformed/emoji2-1.2.0/AndroidManifest.xml:29:13-31:52
+67                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+67-->[androidx.emoji2:emoji2:1.2.0] /Users/jarintasnim/.gradle/caches/8.13/transforms/cc5b5d5ce47d471ddfe9ebc08cd7fafa/transformed/emoji2-1.2.0/AndroidManifest.xml:30:17-75
+68                android:value="androidx.startup" />
+68-->[androidx.emoji2:emoji2:1.2.0] /Users/jarintasnim/.gradle/caches/8.13/transforms/cc5b5d5ce47d471ddfe9ebc08cd7fafa/transformed/emoji2-1.2.0/AndroidManifest.xml:31:17-49
+69            <meta-data
+69-->[androidx.lifecycle:lifecycle-process:2.6.1] /Users/jarintasnim/.gradle/caches/8.13/transforms/15c62d1927f6fc3d63072ae85c34e64b/transformed/lifecycle-process-2.6.1/AndroidManifest.xml:29:13-31:52
+70                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+70-->[androidx.lifecycle:lifecycle-process:2.6.1] /Users/jarintasnim/.gradle/caches/8.13/transforms/15c62d1927f6fc3d63072ae85c34e64b/transformed/lifecycle-process-2.6.1/AndroidManifest.xml:30:17-78
+71                android:value="androidx.startup" />
+71-->[androidx.lifecycle:lifecycle-process:2.6.1] /Users/jarintasnim/.gradle/caches/8.13/transforms/15c62d1927f6fc3d63072ae85c34e64b/transformed/lifecycle-process-2.6.1/AndroidManifest.xml:31:17-49
+72            <meta-data
+72-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/jarintasnim/.gradle/caches/8.13/transforms/92e35f4e4b30f9a0199a7b97273eb3b6/transformed/profileinstaller-1.3.0/AndroidManifest.xml:29:13-31:52
+73                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+73-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/jarintasnim/.gradle/caches/8.13/transforms/92e35f4e4b30f9a0199a7b97273eb3b6/transformed/profileinstaller-1.3.0/AndroidManifest.xml:30:17-85
+74                android:value="androidx.startup" />
+74-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/jarintasnim/.gradle/caches/8.13/transforms/92e35f4e4b30f9a0199a7b97273eb3b6/transformed/profileinstaller-1.3.0/AndroidManifest.xml:31:17-49
+75        </provider>
+76
+77        <receiver
+77-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/jarintasnim/.gradle/caches/8.13/transforms/92e35f4e4b30f9a0199a7b97273eb3b6/transformed/profileinstaller-1.3.0/AndroidManifest.xml:34:9-52:20
+78            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+78-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/jarintasnim/.gradle/caches/8.13/transforms/92e35f4e4b30f9a0199a7b97273eb3b6/transformed/profileinstaller-1.3.0/AndroidManifest.xml:35:13-76
+79            android:directBootAware="false"
+79-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/jarintasnim/.gradle/caches/8.13/transforms/92e35f4e4b30f9a0199a7b97273eb3b6/transformed/profileinstaller-1.3.0/AndroidManifest.xml:36:13-44
+80            android:enabled="true"
+80-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/jarintasnim/.gradle/caches/8.13/transforms/92e35f4e4b30f9a0199a7b97273eb3b6/transformed/profileinstaller-1.3.0/AndroidManifest.xml:37:13-35
+81            android:exported="true"
+81-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/jarintasnim/.gradle/caches/8.13/transforms/92e35f4e4b30f9a0199a7b97273eb3b6/transformed/profileinstaller-1.3.0/AndroidManifest.xml:38:13-36
+82            android:permission="android.permission.DUMP" >
+82-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/jarintasnim/.gradle/caches/8.13/transforms/92e35f4e4b30f9a0199a7b97273eb3b6/transformed/profileinstaller-1.3.0/AndroidManifest.xml:39:13-57
+83            <intent-filter>
+83-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/jarintasnim/.gradle/caches/8.13/transforms/92e35f4e4b30f9a0199a7b97273eb3b6/transformed/profileinstaller-1.3.0/AndroidManifest.xml:40:13-42:29
+84                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+84-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/jarintasnim/.gradle/caches/8.13/transforms/92e35f4e4b30f9a0199a7b97273eb3b6/transformed/profileinstaller-1.3.0/AndroidManifest.xml:41:17-91
+84-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/jarintasnim/.gradle/caches/8.13/transforms/92e35f4e4b30f9a0199a7b97273eb3b6/transformed/profileinstaller-1.3.0/AndroidManifest.xml:41:25-88
+85            </intent-filter>
+86            <intent-filter>
+86-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/jarintasnim/.gradle/caches/8.13/transforms/92e35f4e4b30f9a0199a7b97273eb3b6/transformed/profileinstaller-1.3.0/AndroidManifest.xml:43:13-45:29
+87                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+87-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/jarintasnim/.gradle/caches/8.13/transforms/92e35f4e4b30f9a0199a7b97273eb3b6/transformed/profileinstaller-1.3.0/AndroidManifest.xml:44:17-85
+87-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/jarintasnim/.gradle/caches/8.13/transforms/92e35f4e4b30f9a0199a7b97273eb3b6/transformed/profileinstaller-1.3.0/AndroidManifest.xml:44:25-82
+88            </intent-filter>
+89            <intent-filter>
+89-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/jarintasnim/.gradle/caches/8.13/transforms/92e35f4e4b30f9a0199a7b97273eb3b6/transformed/profileinstaller-1.3.0/AndroidManifest.xml:46:13-48:29
+90                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+90-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/jarintasnim/.gradle/caches/8.13/transforms/92e35f4e4b30f9a0199a7b97273eb3b6/transformed/profileinstaller-1.3.0/AndroidManifest.xml:47:17-88
+90-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/jarintasnim/.gradle/caches/8.13/transforms/92e35f4e4b30f9a0199a7b97273eb3b6/transformed/profileinstaller-1.3.0/AndroidManifest.xml:47:25-85
+91            </intent-filter>
+92            <intent-filter>
+92-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/jarintasnim/.gradle/caches/8.13/transforms/92e35f4e4b30f9a0199a7b97273eb3b6/transformed/profileinstaller-1.3.0/AndroidManifest.xml:49:13-51:29
+93                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+93-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/jarintasnim/.gradle/caches/8.13/transforms/92e35f4e4b30f9a0199a7b97273eb3b6/transformed/profileinstaller-1.3.0/AndroidManifest.xml:50:17-95
+93-->[androidx.profileinstaller:profileinstaller:1.3.0] /Users/jarintasnim/.gradle/caches/8.13/transforms/92e35f4e4b30f9a0199a7b97273eb3b6/transformed/profileinstaller-1.3.0/AndroidManifest.xml:50:25-92
+94            </intent-filter>
+95        </receiver>
+96    </application>
+97
+98</manifest>

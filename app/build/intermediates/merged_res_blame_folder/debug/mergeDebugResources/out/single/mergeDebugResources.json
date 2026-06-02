@@ -1,0 +1,82 @@
+[
+    {
+        "merged": "/Users/jarintasnim/.gradle/daemon/8.13/com.msh.vigidroid.app-debug-31:/xml_backup_rules.xml.flat",
+        "source": "/Users/jarintasnim/.gradle/daemon/8.13/com.msh.vigidroid.app-main-33:/xml/backup_rules.xml"
+    },
+    {
+        "merged": "/Users/jarintasnim/.gradle/daemon/8.13/com.msh.vigidroid.app-debug-31:/drawable_ic_launcher_background.xml.flat",
+        "source": "/Users/jarintasnim/.gradle/daemon/8.13/com.msh.vigidroid.app-main-33:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "/Users/jarintasnim/.gradle/daemon/8.13/com.msh.vigidroid.app-debug-31:/layout_activity_main.xml.flat",
+        "source": "/Users/jarintasnim/.gradle/daemon/8.13/com.msh.vigidroid.app-main-33:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.msh.vigidroid.app-debug-31:/drawable_bg_badge_uncertain.xml.flat",
+        "source": "com.msh.vigidroid.app-main-33:/drawable/bg_badge_uncertain.xml"
+    },
+    {
+        "merged": "/Users/jarintasnim/.gradle/daemon/8.13/com.msh.vigidroid.app-debug-31:/xml_data_extraction_rules.xml.flat",
+        "source": "/Users/jarintasnim/.gradle/daemon/8.13/com.msh.vigidroid.app-main-33:/xml/data_extraction_rules.xml"
+    },
+    {
+        "merged": "com.msh.vigidroid.app-debug-31:/layout_activity_main.xml.flat",
+        "source": "com.msh.vigidroid.app-main-33:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.msh.vigidroid.app-debug-31:/drawable_bg_badge_benign.xml.flat",
+        "source": "com.msh.vigidroid.app-main-33:/drawable/bg_badge_benign.xml"
+    },
+    {
+        "merged": "com.msh.vigidroid.app-debug-31:/drawable_ic_verdict_malware.xml.flat",
+        "source": "com.msh.vigidroid.app-main-33:/drawable/ic_verdict_malware.xml"
+    },
+    {
+        "merged": "com.msh.vigidroid.app-debug-31:/drawable_ic_scan.xml.flat",
+        "source": "com.msh.vigidroid.app-main-33:/drawable/ic_scan.xml"
+    },
+    {
+        "merged": "/Users/jarintasnim/.gradle/daemon/8.13/com.msh.vigidroid.app-debug-31:/mipmap-anydpi_ic_launcher_round.xml.flat",
+        "source": "/Users/jarintasnim/.gradle/daemon/8.13/com.msh.vigidroid.app-main-33:/mipmap-anydpi/ic_launcher_round.xml"
+    },
+    {
+        "merged": "com.msh.vigidroid.app-debug-31:/drawable_ic_shield_logo.xml.flat",
+        "source": "com.msh.vigidroid.app-main-33:/drawable/ic_shield_logo.xml"
+    },
+    {
+        "merged": "com.msh.vigidroid.app-debug-31:/drawable_ic_expand_less.xml.flat",
+        "source": "com.msh.vigidroid.app-main-33:/drawable/ic_expand_less.xml"
+    },
+    {
+        "merged": "com.msh.vigidroid.app-debug-31:/drawable_ic_verdict_uncertain.xml.flat",
+        "source": "com.msh.vigidroid.app-main-33:/drawable/ic_verdict_uncertain.xml"
+    },
+    {
+        "merged": "/Users/jarintasnim/.gradle/daemon/8.13/com.msh.vigidroid.app-debug-31:/mipmap-anydpi_ic_launcher.xml.flat",
+        "source": "/Users/jarintasnim/.gradle/daemon/8.13/com.msh.vigidroid.app-main-33:/mipmap-anydpi/ic_launcher.xml"
+    },
+    {
+        "merged": "/Users/jarintasnim/.gradle/daemon/8.13/com.msh.vigidroid.app-debug-31:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "/Users/jarintasnim/.gradle/daemon/8.13/com.msh.vigidroid.app-main-33:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "com.msh.vigidroid.app-debug-31:/drawable_ic_folder_open.xml.flat",
+        "source": "com.msh.vigidroid.app-main-33:/drawable/ic_folder_open.xml"
+    },
+    {
+        "merged": "com.msh.vigidroid.app-debug-31:/drawable_bg_badge_malware.xml.flat",
+        "source": "com.msh.vigidroid.app-main-33:/drawable/bg_badge_malware.xml"
+    },
+    {
+        "merged": "com.msh.vigidroid.app-debug-31:/drawable_table_divider.xml.flat",
+        "source": "com.msh.vigidroid.app-main-33:/drawable/table_divider.xml"
+    },
+    {
+        "merged": "com.msh.vigidroid.app-debug-31:/drawable_ic_verdict_benign.xml.flat",
+        "source": "com.msh.vigidroid.app-main-33:/drawable/ic_verdict_benign.xml"
+    },
+    {
+        "merged": "com.msh.vigidroid.app-debug-31:/drawable_ic_expand_more.xml.flat",
+        "source": "com.msh.vigidroid.app-main-33:/drawable/ic_expand_more.xml"
+    }
+]
