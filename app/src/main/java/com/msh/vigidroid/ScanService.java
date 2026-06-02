@@ -42,12 +42,35 @@ public class ScanService extends JobIntentService {
 
     private static final int JOB_ID = 2001;
     private static final String TAG = "ScanService";
+    private static final int XGB_FEATURE_DIM = 2500;
+    private static final float XGB_VALIDATION_ACCURACY = 0.9748f;
+    private static final float CNN_VALIDATION_ACCURACY = 0.9607843f;
 
     private OrtEnvironment ortEnvironment;
     private OrtSession ortSession;
     private OrtSession ortSessionCnn;
     private List<String> featureColumns = new ArrayList<>();
     private Map<String, Integer> featureIndex = new HashMap<>();
+
+    private static final class XgbFeatureExtractionResult {
+        final float[] aggregatedVector;
+        final int dexFilesFound;
+        final long structuralParsingTimeMs;
+        final long parseTimeNanos;
+        final long vectorizeTimeNanos;
+
+        XgbFeatureExtractionResult(float[] aggregatedVector,
+                                   int dexFilesFound,
+                                   long structuralParsingTimeMs,
+                                   long parseTimeNanos,
+                                   long vectorizeTimeNanos) {
+            this.aggregatedVector = aggregatedVector;
+            this.dexFilesFound = dexFilesFound;
+            this.structuralParsingTimeMs = structuralParsingTimeMs;
+            this.parseTimeNanos = parseTimeNanos;
+            this.vectorizeTimeNanos = vectorizeTimeNanos;
+        }
+    }
 
 
     public static void enqueueWork(Context context, Intent intent) {
@@ -113,22 +136,25 @@ public class ScanService extends JobIntentService {
 
             // parse apk (XGBoost pipeline — skip if model not loaded)
             long parseStart = SystemClock.elapsedRealtimeNanos();
-            Set<String> extractedTokens = Collections.emptySet();
-            float[] inputVector = new float[0];
+            float[] inputVector = new float[XGB_FEATURE_DIM];
             float score = -1f;
             long parseEnd = parseStart;
             long vecStart = parseStart;
             long vecEnd = parseStart;
             long inferStart = parseStart;
             long inferEnd = parseStart;
+            int totalDexFilesFound = 0;
+            long structuralParsingTimeMs = 0L;
 
             if (ortSession != null && !featureColumns.isEmpty()) {
-                extractedTokens = extractManifestFeatures(apk);
-                parseEnd = SystemClock.elapsedRealtimeNanos();
+                XgbFeatureExtractionResult extraction = extractAggregatedXgbFeatures(apk);
+                inputVector = extraction.aggregatedVector;
+                totalDexFilesFound = extraction.dexFilesFound;
+                structuralParsingTimeMs = extraction.structuralParsingTimeMs;
 
-                vecStart = SystemClock.elapsedRealtimeNanos();
-                inputVector = vectorize(extractedTokens);
-                vecEnd = SystemClock.elapsedRealtimeNanos();
+                parseEnd = parseStart + extraction.parseTimeNanos;
+                vecStart = parseEnd;
+                vecEnd = vecStart + extraction.vectorizeTimeNanos;
 
                 inferStart = SystemClock.elapsedRealtimeNanos();
                 score = runInference(inputVector);
@@ -160,15 +186,25 @@ public class ScanService extends JobIntentService {
             double totalMs = (wallEnd - wallStart) / 1_000_000.0;
             long cpuMs = cpuEnd - cpuStart;
             long memDelta = memEnd - memStart;
+            long xgbMemDelta = memDelta / 2;
+            long cnnMemDelta = memDelta - xgbMemDelta;
 
             float ensemble = computeEnsembleScore(score, cnnScore);
             String ensembleDecision = null;
             if (ensemble >= 0f) {
                 ensembleDecision = ensemble >= 0.5f ? "malware" : "benign";
-                if (score >= 0f && cnnScore >= 0f && Math.abs(score - cnnScore) > 0.4f) {
-                    ensembleDecision = "uncertain";
-                }
             }
+
+            sendLog(String.format(
+                    Locale.US,
+                    "XGBoost: score=%.4f parse=%.2fms vec=%.2fms infer=%.2fms mem=%d bytes",
+                    score, parsingMs, vectorMs, inferenceMs, xgbMemDelta
+            ), null);
+            sendLog(String.format(
+                    Locale.US,
+                    "1D-CNN: score=%.4f parse=%.2fms infer=%.2fms mem=%d bytes",
+                    cnnScore, cnnParsingMs, cnnInferenceMs, cnnMemDelta
+            ), null);
 
             File metricsFile = writeScanMetrics(
                     trigger,
@@ -176,15 +212,16 @@ public class ScanService extends JobIntentService {
                     parsingMs, vectorMs, inferenceMs, score,
                     cnnParsingMs, cnnInferenceMs, cnnScore,
                     totalMs, cpuMs / 1_000_000.0, memDelta,
-                    memEnd - memStart,
+                    xgbMemDelta, cnnMemDelta,
+                    totalDexFilesFound,
+                    structuralParsingTimeMs,
                     ensemble,
                     ensembleDecision
             );
 
             sendScanResult(
-                    apkName, score, cnnScore, ensemble, ensembleDecision,
-                    totalMs, parsingMs, vectorMs, inferenceMs,
-                    cnnParsingMs, cnnInferenceMs,
+                    apkName, ensemble, ensembleDecision,
+                    totalMs, memDelta / (1024.0 * 1024.0),
                     metricsFile != null ? metricsFile.getName() : null
             );
             sendLog("Scanned: " + apkName, "Idle");
@@ -202,38 +239,30 @@ public class ScanService extends JobIntentService {
 
     private void sendScanResult(
             String apkName,
-            float xgbScore,
-            float cnnScore,
             float ensembleScore,
             String ensembleDecision,
             double totalMs,
-            double xgbParseMs,
-            double xgbVecMs,
-            double xgbInferMs,
-            double cnnParseMs,
-            double cnnInferMs,
+            double totalMemMb,
             String metricsFileName
     ) {
         Intent i = new Intent(MainActivity.ACTION_SCAN_RESULT);
         i.putExtra("apk_name", apkName);
-        i.putExtra("xgb_score", xgbScore);
-        i.putExtra("cnn_score", cnnScore);
         i.putExtra("ensemble_score", ensembleScore);
         i.putExtra("ensemble_decision", ensembleDecision);
         i.putExtra("total_ms", totalMs);
-        i.putExtra("xgb_parse_ms", xgbParseMs);
-        i.putExtra("xgb_vec_ms", xgbVecMs);
-        i.putExtra("xgb_infer_ms", xgbInferMs);
-        i.putExtra("cnn_parse_ms", cnnParseMs);
-        i.putExtra("cnn_infer_ms", cnnInferMs);
+        i.putExtra("total_mem_mb", totalMemMb);
         if (metricsFileName != null) {
             i.putExtra("metrics_file", metricsFileName);
         }
         LocalBroadcastManager.getInstance(this).sendBroadcast(i);
     }
 
-    private Set<String> extractManifestFeatures(File apkFile) {
-        Set<String> features = new HashSet<>();
+    private XgbFeatureExtractionResult extractAggregatedXgbFeatures(File apkFile) {
+        float[] aggregatedVector = new float[XGB_FEATURE_DIM];
+        long parseTimeNanos = 0L;
+        long vectorizeTimeNanos = 0L;
+        int dexFilesFound = 0;
+        long structuralParsingStart = SystemClock.elapsedRealtimeNanos();
 
         try (ZipFile zip = new ZipFile(apkFile)) {
             Enumeration<? extends ZipEntry> entries = zip.entries();
@@ -241,34 +270,74 @@ public class ScanService extends JobIntentService {
             while (entries.hasMoreElements()) {
                 ZipEntry entry = entries.nextElement();
                 String entryName = entry.getName();
+                if (entryName == null) {
+                    continue;
+                }
+
                 if (entryName.equalsIgnoreCase("AndroidManifest.xml")) {
-//                    ZipEntry manifestEntry = zip.getEntry("AndroidManifest.xml");
-//                    if (manifestEntry == null) return features;
+                    long manifestParseStart = SystemClock.elapsedRealtimeNanos();
+                    Set<String> manifestFeatures = new HashSet<>();
+                    try (InputStream is = zip.getInputStream(entry)) {
+                        AxmlReader reader = new AxmlReader(is);
+                        Set<String> rawFeatures = reader.parse();
 
-                    InputStream is = zip.getInputStream(entry);
-                    AxmlReader reader = new AxmlReader(is);
-                    Set<String> rawFeatures = reader.parse();
-
-                    for (String rawFeature : rawFeatures) {
-                        if (rawFeature != null && rawFeature.startsWith("android.permission.")){
-                            features.add(normalizePermission(rawFeature));
-                        }
-                        if (rawFeature != null && rawFeature.startsWith("android.intent.action.")){
-                            features.add(normalizeIntent(rawFeature));
+                        for (String rawFeature : rawFeatures) {
+                            if (rawFeature != null && rawFeature.startsWith("android.permission.")) {
+                                manifestFeatures.add(normalizePermission(rawFeature));
+                            }
+                            if (rawFeature != null && rawFeature.startsWith("android.intent.action.")) {
+                                manifestFeatures.add(normalizeIntent(rawFeature));
+                            }
                         }
                     }
+                    parseTimeNanos += (SystemClock.elapsedRealtimeNanos() - manifestParseStart);
+
+                    long manifestVectorStart = SystemClock.elapsedRealtimeNanos();
+                    float[] manifestVector = vectorize(manifestFeatures);
+                    orPoolInto(aggregatedVector, manifestVector);
+                    vectorizeTimeNanos += (SystemClock.elapsedRealtimeNanos() - manifestVectorStart);
+                    continue;
                 }
-                else if (entryName.endsWith(".dex")) {
-                    InputStream is = zip.getInputStream(entry);
-                    MinimalDexParser.parse(is, features::add);
-                    is.close();
+
+                String lowerName = entryName.toLowerCase(Locale.US);
+                if (lowerName.startsWith("classes") && lowerName.endsWith(".dex")) {
+                    dexFilesFound++;
+
+                    long dexParseStart = SystemClock.elapsedRealtimeNanos();
+                    Set<String> dexFeatures = new HashSet<>();
+                    try (InputStream is = zip.getInputStream(entry)) {
+                        MinimalDexParser.parse(is, dexFeatures::add);
+                    }
+                    parseTimeNanos += (SystemClock.elapsedRealtimeNanos() - dexParseStart);
+
+                    long dexVectorStart = SystemClock.elapsedRealtimeNanos();
+                    float[] dexVector = vectorize(dexFeatures);
+                    orPoolInto(aggregatedVector, dexVector);
+                    vectorizeTimeNanos += (SystemClock.elapsedRealtimeNanos() - dexVectorStart);
                 }
             }
         } catch (Exception e) {
             sendLog("Manifest parse error: " + e.getMessage(), null);
         }
 
-        return features;
+        long structuralParsingTimeMs =
+                (SystemClock.elapsedRealtimeNanos() - structuralParsingStart) / 1_000_000L;
+        return new XgbFeatureExtractionResult(
+                aggregatedVector,
+                dexFilesFound,
+                structuralParsingTimeMs,
+                parseTimeNanos,
+                vectorizeTimeNanos
+        );
+    }
+
+    private void orPoolInto(float[] master, float[] candidate) {
+        int n = Math.min(master.length, candidate.length);
+        for (int i = 0; i < n; i++) {
+            if (candidate[i] > 0.0f) {
+                master[i] = 1.0f;
+            }
+        }
     }
 
     private String normalizePermission(String p) {
@@ -291,11 +360,10 @@ public class ScanService extends JobIntentService {
     // Vectorize tokens -> float[] aligned with loaded featureColumns
     // ------------------------------
     private float[] vectorize(Collection<String> tokens) {
-        int n = featureColumns.size();
-        float[] vec = new float[n];
+        float[] vec = new float[XGB_FEATURE_DIM];
         for (String t : tokens) {
             Integer idx = featureIndex.get(t);
-            if (idx != null) vec[idx] = 1.0f;
+            if (idx != null && idx >= 0 && idx < XGB_FEATURE_DIM) vec[idx] = 1.0f;
         }
         return vec;
     }
@@ -470,7 +538,10 @@ public class ScanService extends JobIntentService {
             double xgbParseMs, double xgbVecMs, double xgbInferMs, float xgbScore,
             double cnnParseMs, double cnnInferMs, float cnnScore,
             double wallMs, double cpuMs, long memDeltaBytes,
-            long scanMemDelta,
+            long xgbMemDelta,
+            long cnnMemDelta,
+            int totalDexFilesFound,
+            long structuralParsingTimeMs,
             float ensemble,
             String ensembleDecision
     ) {
@@ -483,15 +554,18 @@ public class ScanService extends JobIntentService {
             scan.wallMs = wallMs;
             scan.cpuMs = cpuMs;
             scan.memDeltaBytes = memDeltaBytes;
+            scan.totalDexFilesFound = totalDexFilesFound;
+            scan.structuralParsingTimeMs = structuralParsingTimeMs;
 
             scan.stages.add(new MetricsWriter.StageMetrics(
-                    "manifest_xgb", xgbParseMs, xgbVecMs, xgbInferMs, xgbScore, scanMemDelta / 2));
+                    "manifest_xgb", xgbParseMs, xgbVecMs, xgbInferMs, xgbScore, xgbMemDelta));
             scan.stages.add(new MetricsWriter.StageMetrics(
-                    "bytecnn", cnnParseMs, 0.0, cnnInferMs, cnnScore, scanMemDelta / 2));
+                    "bytecnn", cnnParseMs, 0.0, cnnInferMs, cnnScore, cnnMemDelta));
 
             if (ensemble >= 0f) {
                 scan.ensembleScore = ensemble;
                 scan.ensembleDecision = ensembleDecision;
+                scan.ensemblePolicy = "weighted_validation_accuracy";
             }
 
             return MetricsWriter.writeScan(this, scan);
@@ -503,17 +577,22 @@ public class ScanService extends JobIntentService {
     }
 
     private float computeEnsembleScore(float xgbScore, float cnnScore) {
-        int n = 0;
-        float sum = 0f;
-        if (xgbScore >= 0f) {
-            sum += xgbScore;
-            n++;
+        boolean hasXgb = xgbScore >= 0f;
+        boolean hasCnn = cnnScore >= 0f;
+        if (!hasXgb && !hasCnn) {
+            return -1f;
         }
-        if (cnnScore >= 0f) {
-            sum += cnnScore;
-            n++;
+        if (hasXgb && !hasCnn) {
+            return xgbScore;
         }
-        return n > 0 ? sum / n : -1f;
+        if (!hasXgb) {
+            return cnnScore;
+        }
+
+        float total = XGB_VALIDATION_ACCURACY + CNN_VALIDATION_ACCURACY;
+        float wXgb = XGB_VALIDATION_ACCURACY / total;
+        float wCnn = CNN_VALIDATION_ACCURACY / total;
+        return (wXgb * xgbScore) + (wCnn * cnnScore);
     }
 
     // ------------------------------

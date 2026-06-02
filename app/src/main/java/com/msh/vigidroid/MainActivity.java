@@ -32,6 +32,8 @@ import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
@@ -40,9 +42,9 @@ public class MainActivity extends AppCompatActivity {
     public static final String ACTION_SCAN_RESULT = "SCAN_RESULT";
 
     private static final int COL_APK_DP = 168;
-    private static final int COL_SCORE_DP = 84;
     private static final int COL_VERDICT_DP = 132;
-    private static final int COL_TIME_DP = 68;
+    private static final int COL_TIME_DP = 84;
+    private static final int COL_MEM_DP = 96;
 
     private TextView txtStatus, txtLog, txtMetricsPath, txtEmptyResults;
     private TableLayout tableResults;
@@ -115,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.headerLog).setOnClickListener(v ->
                 toggleSection(contentLog, iconLogExpand));
 
-        btnOpenMetrics.setOnClickListener(v -> openMetricsFolder());
+        btnOpenMetrics.setOnClickListener(v -> downloadMetrics());
         btnViewFullLog.setOnClickListener(v -> showFullLogDialog());
     }
 
@@ -176,12 +178,34 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void openMetricsFolder() {
-        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-        if (clipboard != null && metricsDir != null) {
-            clipboard.setPrimaryClip(ClipData.newPlainText("metrics_path", metricsDir.getAbsolutePath()));
+    private void downloadMetrics() {
+        if (metricsDir == null) {
+            Toast.makeText(this, R.string.metrics_missing, Toast.LENGTH_SHORT).show();
+            return;
         }
-        Toast.makeText(this, R.string.path_copied, Toast.LENGTH_SHORT).show();
+        File source = new File(metricsDir, MetricsWriter.AGGREGATE_FILENAME);
+        if (!source.exists()) {
+            Toast.makeText(this, R.string.metrics_missing, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        File downloads = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        File target = new File(downloads, MetricsWriter.AGGREGATE_FILENAME);
+        try (FileInputStream fis = new FileInputStream(source);
+             FileOutputStream fos = new FileOutputStream(target)) {
+            byte[] buf = new byte[8192];
+            int read;
+            while ((read = fis.read(buf)) != -1) {
+                fos.write(buf, 0, read);
+            }
+            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            if (clipboard != null) {
+                clipboard.setPrimaryClip(ClipData.newPlainText("metrics_path", target.getAbsolutePath()));
+            }
+            Toast.makeText(this, getString(R.string.metrics_downloaded, target.getAbsolutePath()), Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            Toast.makeText(this, getString(R.string.metrics_download_failed, e.getMessage()), Toast.LENGTH_LONG).show();
+        }
         toggleSection(contentMetrics, iconMetricsExpand);
     }
 
@@ -207,12 +231,11 @@ public class MainActivity extends AppCompatActivity {
         }
         String[] headers = {
                 getString(R.string.col_apk),
-                getString(R.string.col_xgb),
-                getString(R.string.col_cnn),
                 getString(R.string.col_verdict),
-                getString(R.string.col_time)
+                getString(R.string.col_time),
+                getString(R.string.col_memory)
         };
-        int[] widths = {COL_APK_DP, COL_SCORE_DP, COL_SCORE_DP, COL_VERDICT_DP, COL_TIME_DP};
+        int[] widths = {COL_APK_DP, COL_VERDICT_DP, COL_TIME_DP, COL_MEM_DP};
 
         TableRow row = new TableRow(this);
         row.setBackgroundColor(ContextCompat.getColor(this, R.color.table_header_bg));
@@ -229,11 +252,10 @@ public class MainActivity extends AppCompatActivity {
         scrollResults.setVisibility(View.VISIBLE);
 
         String apkName = intent.getStringExtra("apk_name");
-        float xgb = intent.getFloatExtra("xgb_score", -1f);
-        float cnn = intent.getFloatExtra("cnn_score", -1f);
         float ensemble = intent.getFloatExtra("ensemble_score", -1f);
         String decision = intent.getStringExtra("ensemble_decision");
         double totalMs = intent.getDoubleExtra("total_ms", 0);
+        double totalMemMb = intent.getDoubleExtra("total_mem_mb", 0);
         String metricsFile = intent.getStringExtra("metrics_file");
 
         TableRow row = new TableRow(this);
@@ -244,10 +266,9 @@ public class MainActivity extends AppCompatActivity {
         resultRowCount++;
 
         row.addView(apkCell(apkName != null ? apkName : "?", COL_APK_DP));
-        row.addView(scoreCell(xgb, COL_SCORE_DP));
-        row.addView(scoreCell(cnn, COL_SCORE_DP));
         row.addView(verdictBadgeCell(decision, ensemble, COL_VERDICT_DP));
         row.addView(dataCell(String.format(Locale.US, "%.0f ms", totalMs), COL_TIME_DP, Gravity.END));
+        row.addView(dataCell(String.format(Locale.US, "%.2f MB", totalMemMb), COL_MEM_DP, Gravity.END));
 
         tableResults.addView(row);
 
@@ -281,20 +302,6 @@ public class MainActivity extends AppCompatActivity {
         tv.setPadding(dp(10), dp(12), dp(10), dp(12));
         TableRow.LayoutParams lp = new TableRow.LayoutParams(dp(widthDp), ViewGroup.LayoutParams.WRAP_CONTENT);
         tv.setLayoutParams(lp);
-        return tv;
-    }
-
-    private TextView scoreCell(float score, int widthDp) {
-        String text = score < 0f ? "—" : String.format(Locale.US, "%.2f", score);
-        TextView tv = dataCell(text, widthDp, Gravity.CENTER);
-        tv.setTypeface(null, Typeface.BOLD);
-        tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f);
-        if (score >= 0f) {
-            int color = score >= 0.5f ? R.color.verdict_malware : R.color.verdict_benign;
-            tv.setTextColor(ContextCompat.getColor(this, color));
-        } else {
-            tv.setTextColor(ContextCompat.getColor(this, R.color.text_hint));
-        }
         return tv;
     }
 

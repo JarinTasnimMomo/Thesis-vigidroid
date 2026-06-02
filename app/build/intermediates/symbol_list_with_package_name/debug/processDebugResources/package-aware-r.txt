@@ -3697,10 +3697,9 @@ string character_counter_overflowed_content_description
 string character_counter_pattern
 string clear_text_end_icon_content_description
 string col_apk
-string col_cnn
+string col_memory
 string col_time
 string col_verdict
-string col_xgb
 string error_a11y_label
 string error_icon_content_description
 string export_metrics_hint
@@ -3750,6 +3749,9 @@ string material_timepicker_minute
 string material_timepicker_pm
 string material_timepicker_select_time
 string material_timepicker_text_input_mode_description
+string metrics_download_failed
+string metrics_downloaded
+string metrics_missing
 string mtrl_badge_numberless_content_description
 string mtrl_checkbox_button_icon_path_checked
 string mtrl_checkbox_button_icon_path_group_name
