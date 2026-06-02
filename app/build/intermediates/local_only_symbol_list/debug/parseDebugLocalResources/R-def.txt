@@ -69,13 +69,15 @@ mipmap ic_launcher_round
 string app_name
 string app_tagline
 string col_apk
-string col_cnn
+string col_memory
 string col_time
 string col_verdict
-string col_xgb
 string export_metrics_hint
 string export_metrics_title
 string log_empty
+string metrics_download_failed
+string metrics_downloaded
+string metrics_missing
 string no_results_yet
 string open_folder
 string path_copied

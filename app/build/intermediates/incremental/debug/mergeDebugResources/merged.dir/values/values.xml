@@ -1924,16 +1924,15 @@
     <string name="character_counter_pattern" translatable="false">%1$d/%2$d</string>
     <string name="clear_text_end_icon_content_description">Clear text</string>
     <string name="col_apk">APK</string>
-    <string name="col_cnn">1D-CNN</string>
+    <string name="col_memory">Memory</string>
     <string name="col_time">Time</string>
     <string name="col_verdict">Verdict</string>
-    <string name="col_xgb">XGBoost</string>
     <string description="Screen reader announcement for when a checkbox is on error. [CHAR LIMIT=NONE]" name="error_a11y_label">
     Error: invalid
   </string>
     <string name="error_icon_content_description">Error</string>
-    <string name="export_metrics_hint">JSON metrics are saved per scan under your app storage.</string>
-    <string name="export_metrics_title">Export metrics folder</string>
+    <string name="export_metrics_hint">All APK scan metrics are combined into one JSON file. Tap below to download it to Downloads.</string>
+    <string name="export_metrics_title">Export metrics</string>
     <string name="exposed_dropdown_menu_content_description">Show dropdown menu</string>
     <string name="fab_transformation_scrim_behavior" translatable="false">com.google.android.material.transformation.FabTransformationScrimBehavior</string>
     <string name="fab_transformation_sheet_behavior" translatable="false">com.google.android.material.transformation.FabTransformationSheetBehavior</string>
@@ -1979,6 +1978,9 @@
     <string description="Suffix for time in 12-hour standard, after noon. [CHAR_LIMIT=2]" name="material_timepicker_pm">PM</string>
     <string description="Title for the dialog with a time picker. [CHAR_LIMIT=32]" name="material_timepicker_select_time">Select time</string>
     <string name="material_timepicker_text_input_mode_description">Switch to text input mode for the time input.</string>
+    <string name="metrics_download_failed">Metric download failed: %1$s</string>
+    <string name="metrics_downloaded">Metrics downloaded: %1$s</string>
+    <string name="metrics_missing">No metrics file available yet</string>
     <string description="Content description for new notification (no number count) [CHAR_LIMIT=NONE]" name="mtrl_badge_numberless_content_description">New notification</string>
     <string name="mtrl_checkbox_button_icon_path_checked" translatable="false">M14,18.2 11.4,15.6 10,17 14,21 22,13 20.6,11.6z</string>
     <string name="mtrl_checkbox_button_icon_path_group_name" translatable="false">icon</string>
@@ -2048,7 +2050,7 @@
     <string description="Button text to indicate that the widget will ignore the user&apos;s selection [CHAR_LIMIT=16]" name="mtrl_timepicker_cancel">Cancel</string>
     <string description="Button text to indicate that the widget will save the user&apos;s selection [CHAR_LIMIT=16]" name="mtrl_timepicker_confirm">OK</string>
     <string name="no_results_yet">No scans yet. Place APKs in Download/ and tap Start.</string>
-    <string name="open_folder">Open</string>
+    <string name="open_folder">Download metric</string>
     <string name="password_toggle_content_description">Show password</string>
     <string name="path_copied">Metrics path copied to clipboard</string>
     <string name="path_password_eye" translatable="false">M12,4.5C7,4.5 2.73,7.61 1,12c1.73,4.39 6,7.5 11,7.5s9.27,-3.11 11,-7.5c-1.73,-4.39 -6,-7.5 -11,-7.5zM12,17c-2.76,0 -5,-2.24 -5,-5s2.24,-5 5,-5 5,2.24 5,5 -2.24,5 -5,5zM12,9c-1.66,0 -3,1.34 -3,3s1.34,3 3,3 3,-1.34 3,-3 -1.34,-3 -3,-3z</string>
